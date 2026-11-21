@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Countdown</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080b12;color:#fff;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ min-height:100vh;padding:35px 22px;
+}
+header{text-align:center;margin:45px 0}
+header p{color:#9299a8}
+h1{font-size:34px;letter-spacing:-1.5px}
+.card{
+ background:#151b27;border:1px solid #293244;
+ border-radius:22px;padding:24px;margin:16px 0;
+ cursor:pointer;transition:.2s;
+}
+.card:active{transform:scale(.97)}
+.card h2{margin:0 0 8px;font-size:21px}
+.card p{color:#a5adbd;margin:0}
+#detail{display:none;text-align:center;padding-top:60px}
+.back{
+ background:#222b3b;color:white;border:0;
+ padding:12px 20px;border-radius:14px;font-size:16px;
+}
+#eventTitle{font-size:29px;margin-top:45px}
+.timer{
+ display:grid;grid-template-columns:repeat(2,1fr);
+ gap:12px;margin-top:35px
+}
+.unit{
+ background:#151b27;border-radius:18px;padding:22px 8px;
+ border:1px solid #293244
+}
+.number{font-size:35px;font-weight:700}
+.unit small{color:#9da6b7}
+.note{color:#9299a8;font-size:13px;margin-top:30px}
+</style>
+</head>
+<body>
+
+<div id="home">
+<header>
+<h1>Countdowns.</h1>
+<p>Three moments. One journey.</p>
+</header>
+
+<div class="card" onclick="openEvent('fifa')">
+<h2>🏆 FIFA World Cup 2030</h2>
+<p>Count down to the biggest football tournament.</p>
+</div>
+
+<div class="card" onclick="openEvent('cricket')">
+<h2>🏏 Cricket World Cup 2027</h2>
+<p>Count down to the next cricket World Cup.</p>
+</div>
+
+<div class="card" onclick="openEvent('nursing')">
+<h2>🎓 Nursing Graduation</h2>
+<p>Your journey towards September 2030.</p>
+</div>
+</div>
+
+<div id="detail">
+<button class="back" onclick="goHome()">← Back</button>
+<h1 id="eventTitle"></h1>
+<div class="timer">
+<div class="unit"><div class="number" id="days">0</div><small>Days</small></div>
+<div class="unit"><div class="number" id="hours">0</div><small>Hours</small></div>
+<div class="unit"><div class="number" id="minutes">0</div><small>Minutes</small></div>
+<div class="unit"><div class="number" id="seconds">0</div><small>Seconds</small></div>
+</div>
+<p class="note">Time remaining · Updates every second</p>
+</div>
+
+<script>
+const events={
+ fifa:{title:"FIFA World Cup 2030",date:"2030-06-13T00:00:00+05:30"},
+ cricket:{title:"Cricket World Cup 2027",date:"2027-10-01T00:00:00+05:30"},
+ nursing:{title:"Nursing Graduation",date:"2030-09-01T00:00:00+05:30"}
+};
+let timer;
+
+function openEvent(id){
+ clearInterval(timer);
+ document.getElementById("home").style.display="none";
+ document.getElementById("detail").style.display="block";
+ document.getElementById("eventTitle").textContent=events[id].title;
+ history.pushState({page:id},"","#"+id);
+ update(id);
+ timer=setInterval(()=>update(id),1000);
+}
+function update(id){
+ let diff=new Date(events[id].date).getTime()-Date.now();
+ diff=Math.max(0,diff);
+ document.getElementById("days").textContent=Math.floor(diff/86400000);
+ document.getElementById("hours").textContent=Math.floor(diff/3600000)%24;
+ document.getElementById("minutes").textContent=Math.floor(diff/60000)%60;
+ document.getElementById("seconds").textContent=Math.floor(diff/1000)%60;
+}
+function goHome(){
+ clearInterval(timer);
+ document.getElementById("detail").style.display="none";
+ document.getElementById("home").style.display="block";
+ history.pushState({page:"home"},"",location.pathname);
+}
+window.onpopstate=()=>goHome();
+</script>
+</body>
+</html>
