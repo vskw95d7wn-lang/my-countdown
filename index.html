@@ -2,113 +2,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Countdown</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<title>My Journey</title>
+
 <style>
 *{box-sizing:border-box}
 body{
  margin:0;background:#080b12;color:#fff;
  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- min-height:100vh;padding:35px 22px;
+ min-height:100vh;padding:25px 20px;
 }
-header{text-align:center;margin:45px 0}
-header p{color:#9299a8}
-h1{font-size:34px;letter-spacing:-1.5px}
+.screen{display:none;max-width:520px;margin:auto}
+.screen.active{display:block}
+header{text-align:center;margin:55px 0 45px}
+h1{font-size:36px;letter-spacing:-1.5px;margin-bottom:10px}
+.subtitle{color:#9299a8;font-size:16px}
+.heading{font-size:25px;margin:45px 0 25px}
 .card{
  background:#151b27;border:1px solid #293244;
- border-radius:22px;padding:24px;margin:16px 0;
+ border-radius:22px;padding:23px;margin:15px 0;
  cursor:pointer;transition:.2s;
 }
 .card:active{transform:scale(.97)}
-.card h2{margin:0 0 8px;font-size:21px}
-.card p{color:#a5adbd;margin:0}
-#detail{display:none;text-align:center;padding-top:60px}
+.card h2{font-size:21px;margin:0 0 9px}
+.card p{color:#a5adbd;margin:0;font-size:15px}
+.emoji{font-size:27px;margin-bottom:12px}
 .back{
- background:#222b3b;color:white;border:0;
- padding:12px 20px;border-radius:14px;font-size:16px;
+ background:#222b3b;color:white;border:1px solid #354158;
+ padding:12px 19px;border-radius:14px;
+ font-size:15px;margin-top:15px;
 }
-#eventTitle{font-size:29px;margin-top:45px}
+.result{text-align:center;padding-top:35px}
+.result h1{font-size:29px;margin-top:55px}
+.result .date{color:#9299a8;margin-top:12px}
 .timer{
- display:grid;grid-template-columns:repeat(2,1fr);
- gap:12px;margin-top:35px
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:12px;margin-top:35px;
 }
 .unit{
- background:#151b27;border-radius:18px;padding:22px 8px;
- border:1px solid #293244
+ background:#151b27;border:1px solid #293244;
+ border-radius:20px;padding:23px 8px;
 }
-.number{font-size:35px;font-weight:700}
+.number{font-size:36px;font-weight:750;letter-spacing:-1px}
 .unit small{color:#9da6b7}
-.note{color:#9299a8;font-size:13px;margin-top:30px}
+.note{color:#9299a8;font-size:13px;margin-top:28px}
+.footer{text-align:center;color:#687386;font-size:12px;margin-top:55px}
 </style>
 </head>
+
 <body>
 
-<div id="home">
+<!-- HOME SCREEN -->
+<div id="home" class="screen active">
 <header>
-<h1>Countdowns.</h1>
-<p>Three moments. One journey.</p>
+<h1>My Journey.</h1>
+<p class="subtitle">Every moment matters.</p>
 </header>
 
-<div class="card" onclick="openEvent('fifa')">
-<h2>🏆 FIFA World Cup 2030</h2>
-<p>Count down to the biggest football tournament.</p>
+<div class="card" onclick="showScreen('passed')">
+<div class="emoji">⌛</div>
+<h2>Days Passed</h2>
+<p>Look back at how far you've come.</p>
 </div>
 
-<div class="card" onclick="openEvent('cricket')">
-<h2>🏏 Cricket World Cup 2027</h2>
-<p>Count down to the next cricket World Cup.</p>
+<div class="card" onclick="showScreen('countdowns')">
+<div class="emoji">⏳</div>
+<h2>Countdown</h2>
+<p>See how long until your next big moment.</p>
 </div>
 
-<div class="card" onclick="openEvent('nursing')">
-<h2>🎓 Nursing Graduation</h2>
-<p>Your journey towards September 2030.</p>
+<div class="footer">YOUR PERSONAL TIME DASHBOARD</div>
+</div>
+
+<!-- DAYS PASSED SCREEN -->
+<div id="passed" class="screen">
+<button class="back" onclick="showScreen('home')">← Back</button>
+<header>
+<h1>Days Passed.</h1>
+<p class="subtitle">Time since these moments began.</p>
+</header>
+
+<div class="card" onclick="openResult('world2026')">
+<div class="emoji">🏆</div>
+<h2>FIFA World Cup 2026</h2>
+<p>Since 11 June 2026</p>
+</div>
+
+<div class="card" onclick="openResult('joined')">
+<div class="emoji">🎓</div>
+<h2>Nursing Joining</h2>
+<p>Since 16 November 2026</p>
 </div>
 </div>
 
-<div id="detail">
-<button class="back" onclick="goHome()">← Back</button>
-<h1 id="eventTitle"></h1>
+<!-- COUNTDOWN SCREEN -->
+<div id="countdowns" class="screen">
+<button class="back" onclick="showScreen('home')">← Back</button>
+<header>
+<h1>Countdown.</h1>
+<p class="subtitle">Your future is waiting.</p>
+</header>
+
+<div class="card" onclick="openResult('world2030')">
+<div class="emoji">🏆</div>
+<h2>FIFA World Cup 2030</h2>
+<p>13 June 2030</p>
+</div>
+
+<div class="card" onclick="openResult('cricket')">
+<div class="emoji">🏏</div>
+<h2>Cricket World Cup 2027</h2>
+<p>1 October 2027</p>
+</div>
+
+<div class="card" onclick="openResult('graduation')">
+<div class="emoji">🎓</div>
+<h2>Nursing Graduation</h2>
+<p>September 2030</p>
+</div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="result" class="screen result">
+<button class="back" onclick="goBack()">← Back</button>
+
+<h1 id="resultTitle">Event</h1>
+<p class="date" id="resultDate"></p>
+
 <div class="timer">
-<div class="unit"><div class="number" id="days">0</div><small>Days</small></div>
-<div class="unit"><div class="number" id="hours">0</div><small>Hours</small></div>
-<div class="unit"><div class="number" id="minutes">0</div><small>Minutes</small></div>
-<div class="unit"><div class="number" id="seconds">0</div><small>Seconds</small></div>
+<div class="unit">
+<div class="number" id="days">0</div>
+<small id="dayLabel">Days</small>
 </div>
-<p class="note">Time remaining · Updates every second</p>
+<div class="unit">
+<div class="number" id="hours">0</div>
+<small>Hours</small>
+</div>
+<div class="unit">
+<div class="number" id="minutes">0</div>
+<small>Minutes</small>
+</div>
+<div class="unit">
+<div class="number" id="seconds">0</div>
+<small>Seconds</small>
+</div>
+</div>
+
+<p class="note" id="resultNote">Updates automatically every second.</p>
 </div>
 
 <script>
 const events={
- fifa:{title:"FIFA World Cup 2030",date:"2030-06-13T00:00:00+05:30"},
- cricket:{title:"Cricket World Cup 2027",date:"2027-10-01T00:00:00+05:30"},
- nursing:{title:"Nursing Graduation",date:"2030-09-01T00:00:00+05:30"}
+ world2026:{
+  title:"FIFA World Cup 2026",
+  date:"2026-06-11T00:00:00+05:30",
+  mode:"passed",
+  label:"Started 11 June 2026"
+ },
+ joined:{
+  title:"Nursing Joining",
+  date:"2026-11-16T00:00:00+05:30",
+  mode:"passed",
+  label:"Joined 16 November 2026"
+ },
+ world2030:{
+  title:"FIFA World Cup 2030",
+  date:"2030-06-13T00:00:00+05:30",
+  mode:"countdown",
+  label:"13 June 2030"
+ },
+ cricket:{
+  title:"Cricket World Cup 2027",
+  date:"2027-10-01T00:00:00+05:30",
+  mode:"countdown",
+  label:"1 October 2027"
+ },
+ graduation:{
+  title:"Nursing Graduation",
+  date:"2030-09-01T00:00:00+05:30",
+  mode:"countdown",
+  label:"1 September 2030"
+ }
 };
-let timer;
 
-function openEvent(id){
+let currentEvent=null;
+let timer=null;
+let previousScreen="home";
+
+function showScreen(id){
  clearInterval(timer);
- document.getElementById("home").style.display="none";
- document.getElementById("detail").style.display="block";
- document.getElementById("eventTitle").textContent=events[id].title;
- history.pushState({page:id},"","#"+id);
- update(id);
- timer=setInterval(()=>update(id),1000);
+ document.querySelectorAll(".screen").forEach(s=>{
+  s.classList.remove("active");
+ });
+ document.getElementById(id).classList.add("active");
+ window.scrollTo(0,0);
 }
-function update(id){
- let diff=new Date(events[id].date).getTime()-Date.now();
- diff=Math.max(0,diff);
- document.getElementById("days").textContent=Math.floor(diff/86400000);
- document.getElementById("hours").textContent=Math.floor(diff/3600000)%24;
- document.getElementById("minutes").textContent=Math.floor(diff/60000)%60;
- document.getElementById("seconds").textContent=Math.floor(diff/1000)%60;
+
+function openResult(id){
+ currentEvent=events[id];
+ previousScreen=currentEvent.mode==="passed"?"passed":"countdowns";
+
+ document.getElementById("resultTitle").textContent=currentEvent.title;
+ document.getElementById("resultDate").textContent=currentEvent.label;
+ document.getElementById("dayLabel").textContent=
+  currentEvent.mode==="passed"?"Days passed":"Days remaining";
+ document.getElementById("resultNote").textContent=
+  currentEvent.mode==="passed"?"Time elapsed since this date.":"Time remaining until this date.";
+
+ showScreen("result");
+ updateTimer();
+ timer=setInterval(updateTimer,1000);
 }
-function goHome(){
- clearInterval(timer);
- document.getElementById("detail").style.display="none";
- document.getElementById("home").style.display="block";
- history.pushState({page:"home"},"",location.pathname);
+
+function updateTimer(){
+ if(!currentEvent)return;
+
+ let target=new Date(currentEvent.date).getTime();
+ let now=Date.now();
+ let difference=currentEvent.mode==="passed"?now-target:target-now;
+ difference=Math.max(0,difference);
+
+ document.getElementById("days").textContent=
+  Math.floor(difference/86400000);
+ document.getElementById("hours").textContent=
+  Math.floor(difference/3600000)%24;
+ document.getElementById("minutes").textContent=
+  Math.floor(difference/60000)%60;
+ document.getElementById("seconds").textContent=
+  Math.floor(difference/1000)%60;
 }
-window.onpopstate=()=>goHome();
+
+function goBack(){
+ showScreen(previousScreen);
+}
 </script>
+
 </body>
 </html>
